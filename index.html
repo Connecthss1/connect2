@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Connect HSS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            line-height: 1.6;
+        }
+        /* Header Section */
+        header {
+            background: #a6c8e0; /* Changed background color of the header to soft blue */
+            color: white;
+            text-align: center;
+            padding: 8rem 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: slideInDown 1s ease-out;
+        }
+        header p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff9f80);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            animation: pulse 2s infinite;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+            50% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6); }
+            100% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3); }
+        }
+        /* Main Content */
+        .main-content {
+            background: white;
+            margin-top: -2rem;
+            border-radius: 2rem 2rem 0 0;
+            position: relative;
+            z-index: 10;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 4rem 2rem;
+        }
+        /* Section Styling */
+        .section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #1a202c;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            border-radius: 2px;
+        }
+        /* Cards Layout */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        .card-icon {
+            font-size: 3rem;
+            color: #ff7e5f;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+        .card p, .card li {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+        /* Services List */
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+            margin-top: 2rem;
+        }
+        .service-item {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 2rem;
+            border-radius: 1rem;
+            border-left: 4px solid #ff7e5f;
+            transition: all 0.3s ease;
+        }
+        .service-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(255, 126, 95, 0.1);
+        }
+        .service-item strong {
+            color: #2d3748;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        /* Eligibility Section */
+        .eligibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .eligibility-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .eligibility-item:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        .eligibility-item strong {
+            color: #ff7e5f;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .eligibility-item i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        /* Mission and Vision */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        .mission-card, .vision-card {
+            padding: 3rem;
+            border-radius: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .mission-card {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        }
+        .vision-card {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+        }
+        .mission-card::before, .vision-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .mission-card h3, .vision-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        .mission-card p, .vision-card p {
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+            opacity: 0.95;
+        }
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 4rem 2rem;
+            border-radius: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: #4a5568;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #ff7e5f;
+            color: #ff7e5f;
+        }
+        .contact-btn i {
+            font-size: 1.2rem;
+        }
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #333, #000);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 0;
+        }
+        footer a {
+            color: #ff9f80;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: white;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            header p { font-size: 1.1rem; }
+            .container { padding: 2rem 1rem; }
+            .mission-vision { grid-template-columns: 1fr; }
+            .contact-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-home"></i> Connect HSS</h1>
+        <p>Transforming Lives Through Housing Stabilization Services in Minnesota</p>
+        <a class="cta-button" href="https://hssmnsure.as.me/schedule/63a0063f" target="_blank">
+            <i class="fas fa-calendar-alt"></i> Schedule Your Free Consultation
+        </a>
+    </header>
+    <div class="main-content">
+        <div class="container">
+            <section class="section">
+                <h2><i class="fas fa-users"></i> About Connect HSS</h2>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <p>We empower Minnesotans with disabilities and seniors to find and maintain stable housing through comprehensive Housing Stabilization Services. Our dedicated team provides person-centered consultation services, guiding individuals toward secure, sustainable housing solutions that transform lives.</p>
+                </div>
+            </section>
+            <section class="section">
+                <h2><i class="fas fa-tools"></i> Our Services</h2>
+                <ul class="services-list">
+                    <li class="service-item">
+                        <strong><i class="fas fa-clipboard-list"></i> Housing Consultation</strong>
+                        Build a comprehensive, person-centered housing plan tailored to your unique needs and goals.
+                    </li>
+                    <li class="service-item">
+                        <strong><i class="fas fa-key"></i> Housing Transition</strong>
+                        Expert guidance in locating, securing, and transitioning to safe, affordable housing.
+                    </li>
+                    <li class="service-item">
+                        <strong><i class="fas fa-shield-alt"></i> Housing Sustaining</strong>
+                        Ongoing support and resources to help you maintain stable housing long-term.
+                    </li>
+                </ul>
+            </section>
+            <section class="section">
+                <h2><i class="fas fa-check-circle"></i> Eligibility Criteria</h2>
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Housing Stabilization Services are available to Minnesota residents who meet these criteria:</p>
+                <div class="eligibility-grid">
+                    <div class="eligibility-item">
+                        <strong><i class="fas fa-birthday-cake"></i> Age Requirements</strong>
+                        Adults 18+ with disabilities or seniors 65+ are eligible for our services.
+                    </div>
+                    <div class="eligibility-item">
+                        <strong><i class="fas fa-medical-kit"></i> Medical Assistance</strong>
+                        Must be enrolled in Minnesota Medical Assistance (Medicaid) program.
+                    </div>
+                    <div class="eligibility-item">
+                        <strong><i class="fas fa-home"></i> Housing Status</strong>
+                        Currently homeless, at risk of homelessness, or living in institutional settings.
+                    </div>
+                    <div class="eligibility-item">
+                        <strong><i class="fas fa-clipboard-check"></i> Assessment</strong>
+                        Complete a person-centered assessment to determine your specific service needs.
+                    </div>
+                    <div class="eligibility-item">
+                        <strong><i class="fas fa-user-check"></i> Provider Network</strong>
+                        Services must be provided through an enrolled HSS provider in Minnesota.
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #e6fffa, #b2f5ea); border-radius: 1rem;">
+                    <p style="font-style: italic; font-size: 1.1rem; color: #2d3748;">
+                        <i class="fas fa-info-circle"></i> Contact us today for a free consultation to determine your eligibility and discuss your housing goals.
+                    </p>
+                </div>
+            </section>
+            <section class="section">
+                <div class="mission-vision">
+                    <div class="mission-card">
+                        <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                        <p>To transform the lives of Minnesotans by helping them reach their housing goals through compassionate, comprehensive support services.</p>
+                    </div>
+                    <div class="vision-card">
+                        <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                        <p>We fight against homelessness, inadequate living conditions, and barriers to safe housing by connecting individuals with resources and unwavering support.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="section contact-section">
+                <h2><i class="fas fa-phone-alt"></i> Get Started Today</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Ready to take the next step toward stable housing? Contact us for referrals or to request a callback.</p>
+                <div class="contact-buttons">
+                    <a class="contact-btn" href="mailto:management@connecthss.com?subject=Housing%20Services%20Referral&body=Name:%0D%0APhone:%0D%0AMessage:">
+                        <i class="fas fa-envelope"></i> Send Referral Email
+                    </a>
+                    <a class="contact-btn" href="tel:651-222-9972">
+                        <i class="fas fa-phone"></i> Call (651) 222-9972
+                    </a>
+                </div>
+            </section>
+        </div> <div style="margin-top: 2rem; text-align: center;">
+            <label style="font-size: 0.9rem; color: #ccc;">
+                <input type="checkbox" required />
+                I agree to receive text messages from Connect HSS about appointments, document collection, and service updates. Message & data rates may apply. Reply STOP to opt out at any time.
+            </label>
+        </div>
+    </div>
+    <footer>
+        <p>
+            <a href="privacy-policy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a> |
+            <i class="fas fa-phone"></i> 651-222-9972 |
+            <i class="fas fa-envelope"></i> <a href="mailto:management@connecthss.com">management@connecthss.com</a>
+        </p>
+        <p style="margin-top: 1rem;">&copy; 2025 Connect HSS - Empowering Lives Through Housing Solutions</p>
+    </footer>|
+    <script>
+        // Add smooth scrolling and interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.card, .service-item, .eligibility-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+            document.querySelectorAll('.contact-btn, .cta-button').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        color: #333;
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        line-height: 1.6;
+    }
+    /* Header Section */
+    header {
+        background: linear-gradient(to bottom right, rgba(166, 200, 224, 0.7), rgba(166, 200, 224, 0.7)),
+                    url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1500&q=80') center/cover; /* Soft blue with background picture */
+        color: white;
+        text-align: center;
+        padding: 8rem 2rem 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+    header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: float 6s ease-in-out infinite;
+        z-index: 1;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    /* Additional styles remain unchanged... */
+</style>
+
+ <style> section.
+Update its styles to include font-weight: bold;, and also add a border or enhance its background color for better visibility.
+Here's the complete <style> section with the updated styles for the .cta-button class:
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        color: #333;
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        line-height: 1.6;
+    }
+    /* Header Section */
+    header {
+        background: linear-gradient(to bottom right, rgba(166, 200, 224, 0.7), rgba(166, 200, 224, 0.7)),
+                    url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1500&q=80') center/cover;
+        color: white;
+        text-align: center;
+        padding: 8rem 2rem 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+    /* CTA Button */
+    .cta-button {
+        display: inline-block; /* Ensure it behaves like a button */
+        background: linear-gradient(45deg, #ff3e00, #ff9900);
+        color: white;
+        padding: 1.2rem 2.5rem;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold; /* Make the font bold */
+        font-size: 1.2rem; /* Adjust the font size as necessary */
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(255, 126, 95, 0.3);
+        border: 2px solid white; /* Optional: adds a white border for contrast */
+    }
+    .cta-button:hover {
+        background: linear-gradient(45deg, #ff9900, #ff3e00); /* Hover effect */
+        transform: scale(1.05); /* Slightly increase size on hover */
+    }
+    /* Other styles remain unchanged... */
+</style>
